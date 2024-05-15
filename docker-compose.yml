@@ -108,6 +108,7 @@ services:
       caddy.reverse_proxy: "grafana:3000"
       com.centurylinklabs.watchtower.enable: "true"
 
+  # Caddy is used as an HTTP reverse-proxy to expose Premetheus and Grafana
   caddy:
     image: lucaslorentz/caddy-docker-proxy:ci-alpine
     container_name: caddy
