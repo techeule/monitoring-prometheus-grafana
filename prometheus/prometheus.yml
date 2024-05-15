@@ -1,0 +1,107 @@
+---
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "nodeexporter"
+    static_configs:
+      - targets: ["node-exporter:9100"]
+        labels:
+          env: prod
+          service: nodeexporter
+          servicetype: system-metrics
+
+  - job_name: "cadvisor"
+    static_configs:
+      - targets: ["cadvisor:8080"]
+        labels:
+          env: prod
+          service: cadvisor
+          servicetype: system-metrics
+
+  - job_name: "prometheus"
+    static_configs:
+      - targets: ["localhost:9090"]
+        labels:
+          env: prod
+          service: prometheus
+          servicetype: system-metrics
+
+  - job_name: "yoursite-prod-apps-nodeexporter"
+    static_configs:
+      - targets: 
+          - "apps.yoursite.com:29100"
+        labels:
+          env: prod
+          service: nodeexporter-apps
+          servicetype: system
+
+  - job_name: "yoursite-prod-apps-cadvisor"
+    static_configs:
+      - targets:
+          - "apps.yoursite.com:28080"
+        labels:
+          env: prod
+          service: cadvisor-apps
+          servicetype: system
+
+  - job_name: "yoursite-prod-dbs-nodeexporter"
+    static_configs:
+      - targets: 
+          - "dbs.yoursite.com:29100"
+        labels:
+          env: prod
+          service: nodeexporter-dbs
+          servicetype: system
+
+  - job_name: "yoursite-prod-dbs-cadvisor"
+    static_configs:
+      - targets:
+          - "dbs.yoursite.com:28080"
+        labels:
+          env: prod
+          service: cadvisor-dbs
+          servicetype: system
+
+  - job_name: "yoursite-prod-memcached"
+    metrics_path: /scrape
+    params:
+      target: ['prod_memcached:11211']
+    static_configs:
+      - targets:
+          - "apps.yoursite.com:29150"
+        labels:
+          env: prod
+          service: memcached
+          servicetype: system
+
+  - job_name: "yoursite-prod-api"
+    metrics_path: /prometheus/metrics
+    static_configs:
+      - targets:
+          - "api.yoursite.com:8080"
+        labels:
+          env: prod
+          service: api
+          servicetype: application
+
+  - job_name: "yoursite-prod-admin"
+    metrics_path: /prometheus/metrics
+    static_configs:
+      - targets:
+          - "admin.yoursite.com:8080"
+        labels:
+          env: prod
+          service: admin
+          servicetype: application
+
+  - job_name: "yoursite-prod-app"
+    metrics_path: /prometheus/metrics
+    static_configs:
+      - targets:
+          - "app.yoursite.com:8080"
+        labels:
+          env: prod
+          service: app
+          servicetype: application
